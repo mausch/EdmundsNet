@@ -1,0 +1,6 @@
+*.ide
+*.suo
+*/bin/*
+*/obj/*
+packages/*
+.nuget/*.exe
