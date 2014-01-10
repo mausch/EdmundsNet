@@ -5,6 +5,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "EdmundsNet", "EdmundsNet\Ed
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Tests", "Tests\Tests.fsproj", "{BBF72E6E-D863-446F-B9CA-F9E6BC88C791}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpTests", "CSharpTests\CSharpTests.csproj", "{378455A2-A08B-4BD1-AF2C-2388D8399D90}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{BBF72E6E-D863-446F-B9CA-F9E6BC88C791}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBF72E6E-D863-446F-B9CA-F9E6BC88C791}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBF72E6E-D863-446F-B9CA-F9E6BC88C791}.Release|Any CPU.Build.0 = Release|Any CPU
+		{378455A2-A08B-4BD1-AF2C-2388D8399D90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{378455A2-A08B-4BD1-AF2C-2388D8399D90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{378455A2-A08B-4BD1-AF2C-2388D8399D90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{378455A2-A08B-4BD1-AF2C-2388D8399D90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -393,6 +393,6 @@ let tests =
     ]
 
 [<EntryPoint>]
-let nimbyjimby argv = 
+let main argv = 
     run tests
     //run integrationTests
