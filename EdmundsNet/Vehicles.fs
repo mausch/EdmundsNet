@@ -396,24 +396,37 @@ type Engine with
                 let! name = o .> "name"
                 let! equipmentType = o .> "equipmentType"
                 let! availability = o .> "availability"
+                let! compressionRatio = o .> "compressionRatio"
+                let! cylinder = o .> "cylinder"
+                let! size = o .> "size"
+                let! displacement = o .> "displacement"
+                let! configuration = o .> "configuration"
+                let! fuelType = o .> "fuelType"
+                let! horsepower = o .> "horsepower"
+                let! torque = o .> "torque"
+                let! totalValves = o .> "totalValves"
+                let! manufacturerEngineCode = o .> "manufacturerEngineCode"
+                let! typ = o .> "type"
+                let! code = o .> "code"
+                let! compressorType = o .> "compressorType"
                 return {
                     Engine.Id = id
                     Name = name
                     EquipmentType = equipmentType
                     Availability = availability
-                    CompressionRatio = 10m
-                    Cylinder = 8
-                    Size = 8m
-                    Displacement = 123m
-                    Configuration = ""
-                    FuelType = ""
-                    HorsePower = 8
-                    Torque = 8
-                    TotalValves = 23
-                    ManufacturerEngineCode = ""
-                    Type = ""
-                    Code = ""
-                    CompressorType = ""
+                    CompressionRatio = compressionRatio
+                    Cylinder = cylinder
+                    Size = size
+                    Displacement = displacement
+                    Configuration = configuration
+                    FuelType = fuelType
+                    HorsePower = horsepower
+                    Torque = torque
+                    TotalValves = totalValves
+                    ManufacturerEngineCode = manufacturerEngineCode
+                    Type = typ
+                    Code = code
+                    CompressorType = compressorType
                 }
             }
         | x -> Failure ("Expected Engine object, found " + x.ToString())
