@@ -1,5 +1,7 @@
 ﻿namespace EdmundsNet.Vehicles
 
+open System
+
 [<RequireQualifiedAccess>]
 type State = New | Used | Future
 
@@ -119,6 +121,13 @@ type GeneralEquipment =
 | Equipment of Equipment 
 | Engine of Engine 
 | Transmission of Transmission
+with 
+    member x.Match(equipment: Func<_,_>, engine: Func<_,_>, transmission: Func<_,_>) =
+        match x with
+        | Equipment e -> equipment.Invoke e
+        | Engine e -> engine.Invoke e
+        | Transmission t -> transmission.Invoke t
+        
 
 type Equipments = {
     Equipment: GeneralEquipment list
