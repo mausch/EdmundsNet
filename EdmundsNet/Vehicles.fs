@@ -437,14 +437,20 @@ type Transmission with
         | JObject o ->
             monad {
                 let! id = o .> "id"
+                let! name = o .> "name"
+                let! equipmentType = o .> "equipmentType"
+                let! availability = o .> "availability"
+                let! automaticType = o .> "automaticType"
+                let! transmissionType = o .> "transmissionType"
+                let! numberOfSpeeds = o .> "numberOfSpeeds"
                 return {
                     Transmission.Id = id
-                    Name = ""
-                    EquipmentType = ""
-                    Availability = ""
-                    AutomaticType = ""
-                    TransmissionType = ""
-                    NumberOfSpeeds = ""
+                    Name = name
+                    EquipmentType = equipmentType
+                    Availability = availability
+                    AutomaticType = automaticType
+                    TransmissionType = transmissionType
+                    NumberOfSpeeds = numberOfSpeeds
                 }
             }
         | x -> Failure ("Expected Transmission object, found " + x.ToString())
