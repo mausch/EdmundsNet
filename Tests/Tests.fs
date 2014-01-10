@@ -3,11 +3,12 @@ open EdmundsNet
 open EdmundsNet.Vehicles
 open Fleece
 
+
 let integrationTests = 
-    let apiKey = ""
+    let edmunds = Service(apiKey = "")
     testList "Integration" [
         test "VIN lookup" {
-            let response = lookupByVIN "2G1FC3D33C9165616" apiKey |> Async.RunSynchronously
+            let response = edmunds.AsyncLookupByVIN "2G1FC3D33C9165616" |> Async.RunSynchronously
             printfn "%A" response
             ()
         }

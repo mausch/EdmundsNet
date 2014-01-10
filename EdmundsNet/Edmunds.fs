@@ -485,14 +485,3 @@ module Vehicles =
                 o .> "equipment" |> map (fun e -> { Equipments.Equipment = e })
             | x -> Failure ("Expected Equipments object, found " + x.ToString())
             
-    // requests
-
-    open Basics
-
-    let lookupByVIN vin apiKey : VINLookupResponse ChoiceS Async = 
-        let service = "/vins/" + vin
-        doRequest service apiKey
-
-    let getEquipmentByStyleId styleID apiKey : Equipments ChoiceS Async =
-        let service = sprintf "/styles/%d/equipment" styleID
-        doRequest service apiKey
