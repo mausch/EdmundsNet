@@ -114,11 +114,51 @@ module Vehicles =
     }
 
     type Equipment = {
-        Id: int
+        Id: string
         Name: string
         EquipmentType: string
         Availability: string
         Attributes: Attribute list
+    }
+
+    type Engine = {
+        Id: string
+        Name: string
+        EquipmentType: string
+        Availability: string
+        CompressionRatio: decimal
+        Cylinder: int
+        Size: decimal
+        Displacement: decimal
+        Configuration: string
+        FuelType: string
+        HorsePower: int
+        Torque: int
+        TotalValves: int
+        ManufacturerEngineCode: string
+        Type: string
+        Code: string
+        CompressorType: string
+    }
+
+    type Transmission = {
+        Id: string
+        Name: string
+        EquipmentType: string
+        Availability: string
+        AutomaticType: string
+        TransmissionType: string
+        NumberOfSpeeds: string
+    }
+
+    [<RequireQualifiedAccess>]
+    type GeneralEquipment = 
+    | Equipment of Equipment 
+    | Engine of Engine 
+    | Transmission of Transmission
+
+    type Equipments = {
+        Equipment: GeneralEquipment list
     }
 
     type VehicleCategory = {
@@ -158,6 +198,20 @@ module Vehicles =
     open FSharpPlus
     open System.Json
     open Fleece
+
+    type Attribute with
+        static member instance (FromJSON, _: Attribute, _: Attribute ChoiceS) =
+            function
+            | JObject o ->
+                monad {
+                    let! name = o .> "name"
+                    let! value = o .> "value"
+                    return { 
+                        Attribute.Name = name
+                        Value = value
+                    }
+                }
+            | x -> Failure ("Expected attribute object, found " + x.ToString())
 
     type Submodel with
         static member instance (FromJSON, _: Submodel, _: Submodel ChoiceS) = fun (x: JsonValue) ->
@@ -341,6 +395,96 @@ module Vehicles =
             | _ -> Failure ("Expected VINLookupResponse object, found " + x.ToString())
 
 
+    type Equipment with
+        static member instance (FromJSON, _:Equipment, _: Equipment ChoiceS) = fun (x: JsonValue) ->
+            match x with
+            | JObject o ->
+                monad {
+                    let! id = o .> "id"
+                    let! name = o .> "name"
+                    let! equipmentType = o .> "equipmentType"
+                    let! availability = o .> "availability"
+                    let! attributes = o .> "attributes"
+                    return {
+                        Equipment.Id = id
+                        Name = name
+                        EquipmentType = equipmentType
+                        Availability = availability
+                        Attributes = attributes
+                    }
+                }
+            | _ -> Failure ("Expected Equipment object, found " + x.ToString())
+
+    type Engine with
+        static member instance (FromJSON, _:Engine, _:Engine ChoiceS) =
+            function
+            | JObject o ->
+                monad {
+                    let! id = o .> "id"
+                    let! name = o .> "name"
+                    let! equipmentType = o .> "equipmentType"
+                    let! availability = o .> "availability"
+                    return {
+                        Engine.Id = id
+                        Name = name
+                        EquipmentType = equipmentType
+                        Availability = availability
+                        CompressionRatio = 10m
+                        Cylinder = 8
+                        Size = 8m
+                        Displacement = 123m
+                        Configuration = ""
+                        FuelType = ""
+                        HorsePower = 8
+                        Torque = 8
+                        TotalValves = 23
+                        ManufacturerEngineCode = ""
+                        Type = ""
+                        Code = ""
+                        CompressorType = ""
+                    }
+                }
+            | x -> Failure ("Expected Engine object, found " + x.ToString())
+
+    type Transmission with
+        static member instance (FromJSON, _: Transmission, _: Transmission ChoiceS) =
+            function
+            | JObject o ->
+                monad {
+                    let! id = o .> "id"
+                    return {
+                        Transmission.Id = id
+                        Name = ""
+                        EquipmentType = ""
+                        Availability = ""
+                        AutomaticType = ""
+                        TransmissionType = ""
+                        NumberOfSpeeds = ""
+                    }
+                }
+            | x -> Failure ("Expected Transmission object, found " + x.ToString())
+
+    type GeneralEquipment with
+        static member instance (FromJSON, _:GeneralEquipment, _: GeneralEquipment ChoiceS) =
+            function
+            | JObject o as x ->
+                monad {
+                    let! equipmentType = o .> "equipmentType"
+                    return!
+                        match equipmentType with
+                        | "TRANSMISSION" -> fromJSON x |> map GeneralEquipment.Transmission
+                        | "ENGINE" -> fromJSON x |> map GeneralEquipment.Engine
+                        | _ -> fromJSON x |> map GeneralEquipment.Equipment
+                }
+            | x -> Failure ("Expected GeneralEquipment object, found " + x.ToString())
+
+    type Equipments with
+        static member instance (FromJSON, _: Equipments, _: Equipments ChoiceS) =
+            function
+            | JObject o ->
+                o .> "equipment" |> map (fun e -> { Equipments.Equipment = e })
+            | x -> Failure ("Expected Equipments object, found " + x.ToString())
+            
     // requests
 
     open Basics
@@ -349,3 +493,6 @@ module Vehicles =
         let service = "/vins/" + vin
         doRequest service apiKey
 
+    let getEquipmentByStyleId styleID apiKey : Equipments ChoiceS Async =
+        let service = sprintf "/styles/%d/equipment" styleID
+        doRequest service apiKey

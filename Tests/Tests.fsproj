@@ -39,12 +39,20 @@
     <Reference Include="Fleece">
       <HintPath>G:\prg\Fleece\Fleece\bin\Debug\Fleece.dll</HintPath>
     </Reference>
+    <Reference Include="FsControl.Core">
+      <HintPath>..\packages\FsControl.1.0.7\lib\net40\FsControl.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Fuchu">
       <HintPath>..\packages\Fuchu.0.3.0.1\lib\net40-client\Fuchu.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ReadOnlyCollectionsInterfaces">
+      <HintPath>..\packages\ReadOnlyCollectionInterfaces.1.0.0\lib\NET40-client\ReadOnlyCollectionsInterfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
