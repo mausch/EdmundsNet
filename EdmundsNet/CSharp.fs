@@ -1,6 +1,6 @@
 ﻿namespace EdmundsNet
 
-open EdmundsNet.Basics
+open EdmundsNet.Requests
 open EdmundsNet.Vehicles
 open Fleece
 

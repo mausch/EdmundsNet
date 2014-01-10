@@ -1,6 +1,6 @@
 ﻿namespace EdmundsNet
 
-module Basics =
+module Requests =
     open System
     open System.Net
     open System.Web
