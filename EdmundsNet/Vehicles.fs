@@ -100,7 +100,7 @@ type Engine = {
     HorsePower: int
     Torque: int
     TotalValves: int
-    ManufacturerEngineCode: string
+    //ManufacturerEngineCode: string
     Type: string
     Code: string
     CompressorType: string
@@ -403,7 +403,7 @@ type Engine with
                 let! horsepower = jget o "horsepower"
                 let! torque = jget o "torque"
                 let! totalValves = jget o "totalValves"
-                let! manufacturerEngineCode = jget o "manufacturerEngineCode"
+                //let! manufacturerEngineCode = jget o "manufacturerEngineCode"
                 let! typ = jget o "type"
                 let! code = jget o "code"
                 let! compressorType = jget o "compressorType"
@@ -421,7 +421,7 @@ type Engine with
                     HorsePower = horsepower
                     Torque = torque
                     TotalValves = totalValves
-                    ManufacturerEngineCode = manufacturerEngineCode
+                    //ManufacturerEngineCode = manufacturerEngineCode
                     Type = typ
                     Code = code
                     CompressorType = compressorType
