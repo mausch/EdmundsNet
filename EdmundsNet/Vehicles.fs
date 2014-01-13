@@ -147,13 +147,20 @@ type MPG = {
     City: string
 }
 
+type Color = {
+    Id: string
+    Category: string
+    Name: string
+    Availability: string
+}
+
 type VINLookupResponse = {
     Make: Make
     Model: Model
     DrivenWheels: string
     NumOfDoors: string
     Options: string list
-    Colors: string list
+    Colors: Color list
     ManufacturerCode: string
     Price: Price
     Categories: VehicleCategory
@@ -332,40 +339,6 @@ type YearWithStyles with
                 }
             }
         | _ -> Failure ("Expected YearWithStyles object, found " + x.ToString())
-            
-type VINLookupResponse with
-    static member instance (FromJSON, _: VINLookupResponse, _: VINLookupResponse ParseResult) = fun (x: JsonValue) ->
-        match x with
-        | JObject o ->
-            monad {
-                let! make = jget o "make"
-                let! model = jget o "model"
-                let! wheels = jget o "drivenWheels"
-                let! doors = jget o "numOfDoors"
-                let! options = jget o "options"
-                let! colors = jget o "colors"
-                let! price = jget o "price"
-                let! category = jget o "categories"
-                let! mpg = jget o "MPG"
-                let! years = jget o "years"
-                return {
-                    VINLookupResponse.Make = make
-                    Model = model
-                    DrivenWheels = wheels
-                    NumOfDoors = doors
-                    Options = options
-                    Colors = colors
-                    ManufacturerCode = ""
-                    Price = price
-                    Categories = category
-                    VIN = ""
-                    SquishVIN = ""
-                    Years = years
-                    MatchingType = ""
-                    MPG = mpg
-                }
-            }
-        | _ -> Failure ("Expected VINLookupResponse object, found " + x.ToString())
 
 
 type Equipment with
@@ -377,7 +350,11 @@ type Equipment with
                 let! name = jget o "name"
                 let! equipmentType = jget o "equipmentType"
                 let! availability = jget o "availability"
-                let! attributes = jget o "attributes"
+                let attributes = 
+                    match jget o "attributes" with
+                    | Success x -> x
+                    | Failure _ -> []
+
                 return {
                     Equipment.Id = id
                     Name = name
@@ -387,6 +364,26 @@ type Equipment with
                 }
             }
         | _ -> Failure ("Expected Equipment object, found " + x.ToString())
+
+type Color with
+    static member instance (FromJSON, _: Color, _: Color ParseResult) =
+        function
+        | JObject o ->
+            monad {
+                let! category = jget o "category"
+                let! fakeEquipments = jget o "options" : Equipment list ParseResult
+                match fakeEquipments with
+                | [fakeEquipment] -> 
+                    return {
+                        Color.Id = fakeEquipment.Id
+                        Category = category
+                        Name = fakeEquipment.Name
+                        Availability = fakeEquipment.Availability
+                    }
+                | _ -> return! Failure (sprintf "Expected single option for color. Found: %A" o)
+            }
+        | x -> Failure (sprintf "Expected color object, found %A" x)
+                    
 
 type Engine with
     static member instance (FromJSON, _:Engine, _:Engine ParseResult) =
@@ -477,3 +474,36 @@ type Equipments with
             jget o "equipment" |> map (fun e -> { Equipments.Equipment = e })
         | x -> Failure ("Expected Equipments object, found " + x.ToString())
 
+type VINLookupResponse with
+    static member instance (FromJSON, _: VINLookupResponse, _: VINLookupResponse ParseResult) = fun (x: JsonValue) ->
+        match x with
+        | JObject o ->
+            monad {
+                let! make = jget o "make"
+                let! model = jget o "model"
+                let! wheels = jget o "drivenWheels"
+                let! doors = jget o "numOfDoors"
+                let! options = jget o "options"
+                let! colors = jget o "colors"
+                let! price = jget o "price"
+                let! category = jget o "categories"
+                let! mpg = jget o "MPG"
+                let! years = jget o "years"
+                return {
+                    VINLookupResponse.Make = make
+                    Model = model
+                    DrivenWheels = wheels
+                    NumOfDoors = doors
+                    Options = options
+                    Colors = colors
+                    ManufacturerCode = ""
+                    Price = price
+                    Categories = category
+                    VIN = ""
+                    SquishVIN = ""
+                    Years = years
+                    MatchingType = ""
+                    MPG = mpg
+                }
+            }
+        | _ -> Failure ("Expected VINLookupResponse object, found " + x.ToString())

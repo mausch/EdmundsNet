@@ -16,6 +16,25 @@ let integrationTests =
 
 let tests = 
     testList "Deserialization" [
+        test "color" {
+            let json = """
+{
+    "category": "Exterior",
+    "options": [{
+        "id": "200384178",
+        "name": "Arctic White",
+        "equipmentType": "COLOR",
+        "availability": "USED"
+    }]
+}"""
+            let response : Color ParseResult = parseJSON json
+            match response with
+            | Choice2Of2 e -> failtestf "Failed parsing: %s" e
+            | Choice1Of2 r -> 
+                printfn "%A" r
+                ()
+        }
+
         test "VIN lookup response" {
             // https://api.edmunds.com/api/vehicle/v2/vins/2G1FC3D33C9165616?fmt=json&api_key=
 
