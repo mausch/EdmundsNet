@@ -92,16 +92,16 @@ type Engine = {
     EquipmentType: string
     Availability: string
     //CompressionRatio: decimal
-    Cylinder: int
-    Size: decimal
-    Displacement: decimal
-    Configuration: string
-    FuelType: string
-    HorsePower: int
-    Torque: int
-    TotalValves: int
+    //Cylinder: int
+    //Size: decimal
+    //Displacement: decimal
+    //Configuration: string
+    //FuelType: string
+    //HorsePower: int
+    //Torque: int
+    //TotalValves: int
     //ManufacturerEngineCode: string
-    Type: string
+    //Type: string
     Code: string
     CompressorType: string
 }
@@ -395,16 +395,16 @@ type Engine with
                 let! equipmentType = jget o "equipmentType"
                 let! availability = jget o "availability"
                 //let! compressionRatio = jget o "compressionRatio"
-                let! cylinder = jget o "cylinder"
-                let! size = jget o "size"
-                let! displacement = jget o "displacement"
-                let! configuration = jget o "configuration"
-                let! fuelType = jget o "fuelType"
-                let! horsepower = jget o "horsepower"
-                let! torque = jget o "torque"
-                let! totalValves = jget o "totalValves"
+                //let! cylinder = jget o "cylinder"
+                //let! size = jget o "size"
+                //let! displacement = jget o "displacement"
+                //let! configuration = jget o "configuration"
+                //let! fuelType = jget o "fuelType"
+                //let! horsepower = jget o "horsepower"
+                //let! torque = jget o "torque"
+                //let! totalValves = jget o "totalValves"
                 //let! manufacturerEngineCode = jget o "manufacturerEngineCode"
-                let! typ = jget o "type"
+                //let! typ = jget o "type"
                 let! code = jget o "code"
                 let! compressorType = jget o "compressorType"
                 return {
@@ -413,16 +413,16 @@ type Engine with
                     EquipmentType = equipmentType
                     Availability = availability
                     //CompressionRatio = compressionRatio
-                    Cylinder = cylinder
-                    Size = size
-                    Displacement = displacement
-                    Configuration = configuration
-                    FuelType = fuelType
-                    HorsePower = horsepower
-                    Torque = torque
-                    TotalValves = totalValves
+                    //Cylinder = cylinder
+                    //Size = size
+                    //Displacement = displacement
+                    //Configuration = configuration
+                    //FuelType = fuelType
+                    //HorsePower = horsepower
+                    //Torque = torque
+                    //TotalValves = totalValves
                     //ManufacturerEngineCode = manufacturerEngineCode
-                    Type = typ
+                    //Type = typ
                     Code = code
                     CompressorType = compressorType
                 }

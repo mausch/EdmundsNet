@@ -16,6 +16,16 @@ let integrationTests =
 
 let tests = 
     testList "Deserialization" [
+        test "engine" {
+            let json = """{"id":"200384237","name":"Engine","equipmentType":"ENGINE","availability":"OPTIONAL","options":[{"id":"200384236","name":"Keyless Go","description":"Transponder which lets the driver lock\/unlock the vehicle and start\/stop the engine without using a key or pressing a button on a remote keyfob","equipmentType":"OPTION","availability":"All","manufactureOptionName":"KEYLESS GO","manufactureOptionCode":"889","category":"Interior","price":{"baseMSRP":650.0,"baseInvoice":605.0,"estimateTmv":false},"attributes":[{"name":"Keyless Ignition","value":"keyless ignition"}]}],"code":"nullNAG","compressorType":"NA"}"""
+            let response : Engine ParseResult = parseJSON json
+            match response with
+            | Choice2Of2 e -> failtestf "Failed parsing: %s" e
+            | Choice1Of2 r -> 
+                printfn "%A" r
+
+        }
+
         test "color" {
             let json = """
 {
@@ -31,7 +41,7 @@ let tests =
             match response with
             | Choice2Of2 e -> failtestf "Failed parsing: %s" e
             | Choice1Of2 r -> 
-                printfn "%A" r
+                //printfn "%A" r
                 ()
         }
 
@@ -100,7 +110,7 @@ let tests =
             match response with
             | Choice2Of2 e -> failtestf "Failed parsing: %s" e
             | Choice1Of2 r -> 
-                printfn "%A" r
+                //printfn "%A" r
                 ()
             ()
         }
@@ -406,7 +416,7 @@ let tests =
             match response with
             | Choice2Of2 e -> failtestf "Failed parsing: %s" e
             | Choice1Of2 r -> 
-                printfn "%A" r
+                //printfn "%A" r
                 ()
             ()
         }
