@@ -159,7 +159,7 @@ type VINLookupResponse = {
     Model: Model
     DrivenWheels: string
     NumOfDoors: string
-    Options: string list
+    //Options: string list
     Colors: Color list
     ManufacturerCode: string
     Price: Price
@@ -483,7 +483,7 @@ type VINLookupResponse with
                 let! model = jget o "model"
                 let! wheels = jget o "drivenWheels"
                 let! doors = jget o "numOfDoors"
-                let! options = jget o "options"
+                //let! options = jget o "options"
                 let! colors = jget o "colors"
                 let! price = jget o "price"
                 let! category = jget o "categories"
@@ -494,7 +494,7 @@ type VINLookupResponse with
                     Model = model
                     DrivenWheels = wheels
                     NumOfDoors = doors
-                    Options = options
+                    //Options = options
                     Colors = colors
                     ManufacturerCode = ""
                     Price = price
