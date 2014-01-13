@@ -91,7 +91,7 @@ type Engine = {
     Name: string
     EquipmentType: string
     Availability: string
-    CompressionRatio: decimal
+    //CompressionRatio: decimal
     Cylinder: int
     Size: decimal
     Displacement: decimal
@@ -394,7 +394,7 @@ type Engine with
                 let! name = jget o "name"
                 let! equipmentType = jget o "equipmentType"
                 let! availability = jget o "availability"
-                let! compressionRatio = jget o "compressionRatio"
+                //let! compressionRatio = jget o "compressionRatio"
                 let! cylinder = jget o "cylinder"
                 let! size = jget o "size"
                 let! displacement = jget o "displacement"
@@ -412,7 +412,7 @@ type Engine with
                     Name = name
                     EquipmentType = equipmentType
                     Availability = availability
-                    CompressionRatio = compressionRatio
+                    //CompressionRatio = compressionRatio
                     Cylinder = cylinder
                     Size = size
                     Displacement = displacement
