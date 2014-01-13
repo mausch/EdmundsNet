@@ -77,7 +77,7 @@ let tests =
     }
 }
 """
-            let response : VINLookupResponse ChoiceS = parseJSON json
+            let response : VINLookupResponse ParseResult = parseJSON json
             match response with
             | Choice2Of2 e -> failtestf "Failed parsing: %s" e
             | Choice1Of2 r -> 
@@ -383,7 +383,7 @@ let tests =
     "equipmentCount": 44
 }
 """
-            let response : Equipments ChoiceS = parseJSON json
+            let response : Equipments ParseResult = parseJSON json
             match response with
             | Choice2Of2 e -> failtestf "Failed parsing: %s" e
             | Choice1Of2 r -> 

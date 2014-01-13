@@ -171,13 +171,14 @@ open FSharpPlus
 open System.Json
 open Fleece
 
+
 type Attribute with
-    static member instance (FromJSON, _: Attribute, _: Attribute ChoiceS) =
+    static member instance (FromJSON, _: Attribute, _: Attribute ParseResult) =
         function
         | JObject o ->
             monad {
-                let! name = o .> "name"
-                let! value = o .> "value"
+                let! name = jget o "name"
+                let! value = jget o "value"
                 return { 
                     Attribute.Name = name
                     Value = value
@@ -186,13 +187,13 @@ type Attribute with
         | x -> Failure ("Expected attribute object, found " + x.ToString())
 
 type Submodel with
-    static member instance (FromJSON, _: Submodel, _: Submodel ChoiceS) = fun (x: JsonValue) ->
+    static member instance (FromJSON, _: Submodel, _: Submodel ParseResult) = fun (x: JsonValue) ->
         match x with
         | JObject o ->
             monad {
-                let! body = o .> "body"
-                let! modelName = o .> "modelName"
-                let! niceName = o .> "niceName"
+                let! body = jget o "body"
+                let! modelName = jget o "modelName"
+                let! niceName = jget o "niceName"
                 return { 
                     Submodel.Body = body
                     ModelName = modelName
@@ -202,14 +203,14 @@ type Submodel with
         | _ -> Failure ("Expected submodel object, found " + x.ToString())
 
 type Style with
-    static member instance (FromJSON, _: Style, _: Style ChoiceS) = fun (x: JsonValue) ->
+    static member instance (FromJSON, _: Style, _: Style ParseResult) = fun (x: JsonValue) ->
         match x with
         | JObject o ->
             monad {
-                let! id = o .> "id"
-                let! name = o .> "name"
-                let! trim = o .> "trim"
-                let! submodel = o .> "submodel"
+                let! id = jget o "id"
+                let! name = jget o "name"
+                let! trim = jget o "trim"
+                let! submodel = jget o "submodel"
                 return { 
                     Style.Id = id
                     Name = name
@@ -220,13 +221,13 @@ type Style with
         | _ -> Failure ("Expected style object, found " + x.ToString())
 
 type Make with
-    static member instance (FromJSON, _: Make, _: Make ChoiceS) = fun (x: JsonValue) ->
+    static member instance (FromJSON, _: Make, _: Make ParseResult) = fun (x: JsonValue) ->
         match x with
         | JObject o ->
             monad {
-                let! id = o .> "id"
-                let! name = o .> "name"
-                let! niceName = o .> "niceName"
+                let! id = jget o "id"
+                let! name = jget o "name"
+                let! niceName = jget o "niceName"
                 return {
                     Make.Id = id
                     Name = name
@@ -236,13 +237,13 @@ type Make with
         | _ -> Failure ("Expected make object, found " + x.ToString())
 
 type Model with
-    static member instance (FromJSON, _: Model, _: Model ChoiceS) = fun (x: JsonValue) ->
+    static member instance (FromJSON, _: Model, _: Model ParseResult) = fun (x: JsonValue) ->
         match x with
         | JObject o ->
             monad {
-                let! id = o .> "id"
-                let! name = o .> "name"
-                let! niceName = o .> "niceName"
+                let! id = jget o "id"
+                let! name = jget o "name"
+                let! niceName = jget o "niceName"
                 return {
                     Model.Id = id
                     Name = name
@@ -252,12 +253,12 @@ type Model with
         | _ -> Failure ("Expected model object, found " + x.ToString())
 
 type MPG with
-    static member instance (FromJSON, _: MPG, _: MPG ChoiceS) = fun (x: JsonValue) ->
+    static member instance (FromJSON, _: MPG, _: MPG ParseResult) = fun (x: JsonValue) ->
         match x with
         | JObject o ->
             monad {
-                let! highway = o .> "highway"
-                let! city = o .> "city"
+                let! highway = jget o "highway"
+                let! city = jget o "city"
                 return {
                     MPG.Highway = highway
                     City = city
@@ -266,13 +267,13 @@ type MPG with
         | _ -> Failure ("Expected MPG object, found " + x.ToString())
 
 type Price with
-    static member instance (FromJSON, _: Price, _: Price ChoiceS) = fun (x: JsonValue) ->
+    static member instance (FromJSON, _: Price, _: Price ParseResult) = fun (x: JsonValue) ->
         match x with
         | JObject o ->
             monad {
-                let! msrp = o .> "baseMSRP"
-                let! baseInvoice = o .> "baseInvoice"
-                let! tmv = o .> "estimateTmv"
+                let! msrp = jget o "baseMSRP"
+                let! baseInvoice = jget o "baseInvoice"
+                let! tmv = jget o "estimateTmv"
                 return {
                     Price.BaseMSRP = msrp
                     BaseInvoice = baseInvoice
@@ -282,16 +283,16 @@ type Price with
         | _ -> Failure ("Expected price object, found " + x.ToString())
 
 type VehicleCategory with
-    static member instance (FromJSON, _: VehicleCategory, _: VehicleCategory ChoiceS) = fun (x: JsonValue) ->
+    static member instance (FromJSON, _: VehicleCategory, _: VehicleCategory ParseResult) = fun (x: JsonValue) ->
         match x with
         | JObject o ->
             monad {
-                let! market = o .> "market"
-                let! epaclass = o .> "EPAClass"
-                let! vehicleSize = o .> "vehicleSize"
-                let! primaryBodyType = o .> "primaryBodyType"
-                let! vehicleStyle = o .> "vehicleStyle"
-                let! vehicleType = o .> "vehicleType"
+                let! market = jget o "market"
+                let! epaclass = jget o "EPAClass"
+                let! vehicleSize = jget o "vehicleSize"
+                let! primaryBodyType = jget o "primaryBodyType"
+                let! vehicleStyle = jget o "vehicleStyle"
+                let! vehicleType = jget o "vehicleType"
                 return {
                     VehicleCategory.Market = market
                     EPAClass = epaclass
@@ -304,12 +305,12 @@ type VehicleCategory with
         | _ -> Failure ("Expected price object, found " + x.ToString())
 
 type Year with
-    static member instance (FromJSON, _: Year, _: Year ChoiceS) = fun (x: JsonValue) ->
+    static member instance (FromJSON, _: Year, _: Year ParseResult) = fun (x: JsonValue) ->
         match x with
         | JObject o ->
             monad {
-                let! id = o .> "id"
-                let! year = o .> "year"
+                let! id = jget o "id"
+                let! year = jget o "year"
                 return {
                     Year.Id = id
                     Year = year
@@ -319,12 +320,12 @@ type Year with
         | _ -> Failure ("Expected Year object, found " + x.ToString())
 
 type YearWithStyles with
-    static member instance (FromJSON, _: YearWithStyles, _: YearWithStyles ChoiceS) = fun (x: JsonValue) ->
+    static member instance (FromJSON, _: YearWithStyles, _: YearWithStyles ParseResult) = fun (x: JsonValue) ->
         match x with
         | JObject o ->
             monad {
                 let! year = fromJSON x
-                let! styles = o .> "styles"
+                let! styles = jget o "styles"
                 return {
                     YearWithStyles.Year = year
                     Styles = styles
@@ -333,20 +334,20 @@ type YearWithStyles with
         | _ -> Failure ("Expected YearWithStyles object, found " + x.ToString())
             
 type VINLookupResponse with
-    static member instance (FromJSON, _: VINLookupResponse, _: VINLookupResponse ChoiceS) = fun (x: JsonValue) ->
+    static member instance (FromJSON, _: VINLookupResponse, _: VINLookupResponse ParseResult) = fun (x: JsonValue) ->
         match x with
         | JObject o ->
             monad {
-                let! make = o .> "make"
-                let! model = o .> "model"
-                let! wheels = o .> "drivenWheels"
-                let! doors = o .> "numOfDoors"
-                let! options = o .> "options"
-                let! colors = o .> "colors"
-                let! price = o .> "price"
-                let! category = o .> "categories"
-                let! mpg = o .> "MPG"
-                let! years = o .> "years"
+                let! make = jget o "make"
+                let! model = jget o "model"
+                let! wheels = jget o "drivenWheels"
+                let! doors = jget o "numOfDoors"
+                let! options = jget o "options"
+                let! colors = jget o "colors"
+                let! price = jget o "price"
+                let! category = jget o "categories"
+                let! mpg = jget o "MPG"
+                let! years = jget o "years"
                 return {
                     VINLookupResponse.Make = make
                     Model = model
@@ -368,15 +369,15 @@ type VINLookupResponse with
 
 
 type Equipment with
-    static member instance (FromJSON, _:Equipment, _: Equipment ChoiceS) = fun (x: JsonValue) ->
+    static member instance (FromJSON, _:Equipment, _: Equipment ParseResult) = fun (x: JsonValue) ->
         match x with
         | JObject o ->
             monad {
-                let! id = o .> "id"
-                let! name = o .> "name"
-                let! equipmentType = o .> "equipmentType"
-                let! availability = o .> "availability"
-                let! attributes = o .> "attributes"
+                let! id = jget o "id"
+                let! name = jget o "name"
+                let! equipmentType = jget o "equipmentType"
+                let! availability = jget o "availability"
+                let! attributes = jget o "attributes"
                 return {
                     Equipment.Id = id
                     Name = name
@@ -388,27 +389,27 @@ type Equipment with
         | _ -> Failure ("Expected Equipment object, found " + x.ToString())
 
 type Engine with
-    static member instance (FromJSON, _:Engine, _:Engine ChoiceS) =
+    static member instance (FromJSON, _:Engine, _:Engine ParseResult) =
         function
         | JObject o ->
             monad {
-                let! id = o .> "id"
-                let! name = o .> "name"
-                let! equipmentType = o .> "equipmentType"
-                let! availability = o .> "availability"
-                let! compressionRatio = o .> "compressionRatio"
-                let! cylinder = o .> "cylinder"
-                let! size = o .> "size"
-                let! displacement = o .> "displacement"
-                let! configuration = o .> "configuration"
-                let! fuelType = o .> "fuelType"
-                let! horsepower = o .> "horsepower"
-                let! torque = o .> "torque"
-                let! totalValves = o .> "totalValves"
-                let! manufacturerEngineCode = o .> "manufacturerEngineCode"
-                let! typ = o .> "type"
-                let! code = o .> "code"
-                let! compressorType = o .> "compressorType"
+                let! id = jget o "id"
+                let! name = jget o "name"
+                let! equipmentType = jget o "equipmentType"
+                let! availability = jget o "availability"
+                let! compressionRatio = jget o "compressionRatio"
+                let! cylinder = jget o "cylinder"
+                let! size = jget o "size"
+                let! displacement = jget o "displacement"
+                let! configuration = jget o "configuration"
+                let! fuelType = jget o "fuelType"
+                let! horsepower = jget o "horsepower"
+                let! torque = jget o "torque"
+                let! totalValves = jget o "totalValves"
+                let! manufacturerEngineCode = jget o "manufacturerEngineCode"
+                let! typ = jget o "type"
+                let! code = jget o "code"
+                let! compressorType = jget o "compressorType"
                 return {
                     Engine.Id = id
                     Name = name
@@ -432,17 +433,17 @@ type Engine with
         | x -> Failure ("Expected Engine object, found " + x.ToString())
 
 type Transmission with
-    static member instance (FromJSON, _: Transmission, _: Transmission ChoiceS) =
+    static member instance (FromJSON, _: Transmission, _: Transmission ParseResult) =
         function
         | JObject o ->
             monad {
-                let! id = o .> "id"
-                let! name = o .> "name"
-                let! equipmentType = o .> "equipmentType"
-                let! availability = o .> "availability"
-                let! automaticType = o .> "automaticType"
-                let! transmissionType = o .> "transmissionType"
-                let! numberOfSpeeds = o .> "numberOfSpeeds"
+                let! id = jget o "id"
+                let! name = jget o "name"
+                let! equipmentType = jget o "equipmentType"
+                let! availability = jget o "availability"
+                let! automaticType = jget o "automaticType"
+                let! transmissionType = jget o "transmissionType"
+                let! numberOfSpeeds = jget o "numberOfSpeeds"
                 return {
                     Transmission.Id = id
                     Name = name
@@ -456,11 +457,11 @@ type Transmission with
         | x -> Failure ("Expected Transmission object, found " + x.ToString())
 
 type GeneralEquipment with
-    static member instance (FromJSON, _:GeneralEquipment, _: GeneralEquipment ChoiceS) =
+    static member instance (FromJSON, _:GeneralEquipment, _: GeneralEquipment ParseResult) =
         function
         | JObject o as x ->
             monad {
-                let! equipmentType = o .> "equipmentType"
+                let! equipmentType = jget o "equipmentType"
                 return!
                     match equipmentType with
                     | "TRANSMISSION" -> fromJSON x |> map GeneralEquipment.Transmission
@@ -470,11 +471,9 @@ type GeneralEquipment with
         | x -> Failure ("Expected GeneralEquipment object, found " + x.ToString())
 
 type Equipments with
-    static member instance (FromJSON, _: Equipments, _: Equipments ChoiceS) =
+    static member instance (FromJSON, _: Equipments, _: Equipments ParseResult) =
         function
         | JObject o ->
-            o .> "equipment" |> map (fun e -> { Equipments.Equipment = e })
+            jget o "equipment" |> map (fun e -> { Equipments.Equipment = e })
         | x -> Failure ("Expected Equipments object, found " + x.ToString())
-            
-
 
