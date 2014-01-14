@@ -22,8 +22,8 @@ let tests =
             match response with
             | Choice2Of2 e -> failtestf "Failed parsing: %s" e
             | Choice1Of2 r -> 
-                printfn "%A" r
-
+                //printfn "%A" r
+                ()
         }
 
         test "color" {

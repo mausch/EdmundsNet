@@ -44,7 +44,7 @@ type Make = {
 
 type Price = {
     BaseMSRP: decimal
-    BaseInvoice: decimal
+    BaseInvoice: decimal option
     EstimateTmv: bool
 }
 
@@ -111,7 +111,7 @@ type Transmission = {
     Name: string
     EquipmentType: string
     Availability: string
-    AutomaticType: string
+    AutomaticType: string option
     TransmissionType: string
     NumberOfSpeeds: string
 }
@@ -157,18 +157,18 @@ type Color = {
 type VINLookupResponse = {
     Make: Make
     Model: Model
-    DrivenWheels: string
+    DrivenWheels: string option
     NumOfDoors: string
     //Options: string list
     Colors: Color list
     ManufacturerCode: string
-    Price: Price
+    Price: Price option
     Categories: VehicleCategory
     VIN: string
     SquishVIN: string
     Years: YearWithStyles list
     MatchingType: string
-    MPG: MPG
+    MPG: MPG option
 }
 
 
@@ -279,7 +279,7 @@ type Price with
         | JObject o ->
             monad {
                 let! msrp = jget o "baseMSRP"
-                let! baseInvoice = jget o "baseInvoice"
+                let! baseInvoice = jgetopt o "baseInvoice"
                 let! tmv = jget o "estimateTmv"
                 return {
                     Price.BaseMSRP = msrp
@@ -373,14 +373,14 @@ type Color with
                 let! category = jget o "category"
                 let! fakeEquipments = jget o "options" : Equipment list ParseResult
                 match fakeEquipments with
-                | [fakeEquipment] -> 
+                | fakeEquipment::_ -> 
                     return {
                         Color.Id = fakeEquipment.Id
                         Category = category
                         Name = fakeEquipment.Name
                         Availability = fakeEquipment.Availability
                     }
-                | _ -> return! Failure (sprintf "Expected single option for color. Found: %A" o)
+                | _ -> return! Failure (sprintf "Expected at least one option for color. Found: %A" o)
             }
         | x -> Failure (sprintf "Expected color object, found %A" x)
                     
@@ -438,7 +438,7 @@ type Transmission with
                 let! name = jget o "name"
                 let! equipmentType = jget o "equipmentType"
                 let! availability = jget o "availability"
-                let! automaticType = jget o "automaticType"
+                let! automaticType = jgetopt o "automaticType"
                 let! transmissionType = jget o "transmissionType"
                 let! numberOfSpeeds = jget o "numberOfSpeeds"
                 return {
@@ -481,13 +481,13 @@ type VINLookupResponse with
             monad {
                 let! make = jget o "make"
                 let! model = jget o "model"
-                let! wheels = jget o "drivenWheels"
+                let! wheels = jgetopt o "drivenWheels"
                 let! doors = jget o "numOfDoors"
                 //let! options = jget o "options"
                 let! colors = jget o "colors"
-                let! price = jget o "price"
+                let! price = jgetopt o "price"
                 let! category = jget o "categories"
-                let! mpg = jget o "MPG"
+                let! mpg = jgetopt o "MPG"
                 let! years = jget o "years"
                 return {
                     VINLookupResponse.Make = make
