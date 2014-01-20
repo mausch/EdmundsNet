@@ -180,7 +180,7 @@ open Fleece
 
 
 type Attribute with
-    static member instance (FromJSON, _: Attribute, _: Attribute ParseResult) =
+    static member FromJSON (_: Attribute) =
         function
         | JObject o ->
             monad {
@@ -194,8 +194,8 @@ type Attribute with
         | x -> Failure ("Expected attribute object, found " + x.ToString())
 
 type Submodel with
-    static member instance (FromJSON, _: Submodel, _: Submodel ParseResult) = fun (x: JsonValue) ->
-        match x with
+    static member FromJSON (_: Submodel) =
+        function
         | JObject o ->
             monad {
                 let! body = jget o "body"
@@ -207,11 +207,11 @@ type Submodel with
                     NiceName = niceName
                 }
             }
-        | _ -> Failure ("Expected submodel object, found " + x.ToString())
+        | x -> Failure ("Expected submodel object, found " + x.ToString())
 
 type Style with
-    static member instance (FromJSON, _: Style, _: Style ParseResult) = fun (x: JsonValue) ->
-        match x with
+    static member FromJSON (_: Style) =
+        function
         | JObject o ->
             monad {
                 let! id = jget o "id"
@@ -225,11 +225,11 @@ type Style with
                     Submodel = submodel
                 }
             }
-        | _ -> Failure ("Expected style object, found " + x.ToString())
+        | x -> Failure ("Expected style object, found " + x.ToString())
 
 type Make with
-    static member instance (FromJSON, _: Make, _: Make ParseResult) = fun (x: JsonValue) ->
-        match x with
+    static member FromJSON (_: Make) =
+        function
         | JObject o ->
             monad {
                 let! id = jget o "id"
@@ -241,11 +241,11 @@ type Make with
                     NiceName = niceName
                 }
             }
-        | _ -> Failure ("Expected make object, found " + x.ToString())
+        | x -> Failure ("Expected make object, found " + x.ToString())
 
 type Model with
-    static member instance (FromJSON, _: Model, _: Model ParseResult) = fun (x: JsonValue) ->
-        match x with
+    static member FromJSON (_: Model) =
+        function
         | JObject o ->
             monad {
                 let! id = jget o "id"
@@ -257,11 +257,11 @@ type Model with
                     NiceName = niceName
                 }
             }
-        | _ -> Failure ("Expected model object, found " + x.ToString())
+        | x -> Failure ("Expected model object, found " + x.ToString())
 
 type MPG with
-    static member instance (FromJSON, _: MPG, _: MPG ParseResult) = fun (x: JsonValue) ->
-        match x with
+    static member FromJSON (_: MPG) =
+        function
         | JObject o ->
             monad {
                 let! highway = jget o "highway"
@@ -271,11 +271,11 @@ type MPG with
                     City = city
                 }
             }
-        | _ -> Failure ("Expected MPG object, found " + x.ToString())
+        | x -> Failure ("Expected MPG object, found " + x.ToString())
 
 type Price with
-    static member instance (FromJSON, _: Price, _: Price ParseResult) = fun (x: JsonValue) ->
-        match x with
+    static member FromJSON (_: Price) =
+        function
         | JObject o ->
             monad {
                 let! msrp = jget o "baseMSRP"
@@ -287,11 +287,11 @@ type Price with
                     EstimateTmv = tmv
                 }
             }
-        | _ -> Failure ("Expected price object, found " + x.ToString())
+        | x -> Failure ("Expected price object, found " + x.ToString())
 
 type VehicleCategory with
-    static member instance (FromJSON, _: VehicleCategory, _: VehicleCategory ParseResult) = fun (x: JsonValue) ->
-        match x with
+    static member FromJSON (_: VehicleCategory) =
+        function
         | JObject o ->
             monad {
                 let! market = jget o "market"
@@ -309,11 +309,11 @@ type VehicleCategory with
                     VehicleType = vehicleType
                 }
             }
-        | _ -> Failure ("Expected price object, found " + x.ToString())
+        | x -> Failure ("Expected price object, found " + x.ToString())
 
 type Year with
-    static member instance (FromJSON, _: Year, _: Year ParseResult) = fun (x: JsonValue) ->
-        match x with
+    static member FromJSON (_: Year) =
+        function
         | JObject o ->
             monad {
                 let! id = jget o "id"
@@ -324,12 +324,12 @@ type Year with
                     States = []
                 }
             }
-        | _ -> Failure ("Expected Year object, found " + x.ToString())
+        | x -> Failure ("Expected Year object, found " + x.ToString())
 
 type YearWithStyles with
-    static member instance (FromJSON, _: YearWithStyles, _: YearWithStyles ParseResult) = fun (x: JsonValue) ->
-        match x with
-        | JObject o ->
+    static member FromJSON (_: YearWithStyles) =
+        function
+        | JObject o as x ->
             monad {
                 let! year = fromJSON x
                 let! styles = jget o "styles"
@@ -338,12 +338,12 @@ type YearWithStyles with
                     Styles = styles
                 }
             }
-        | _ -> Failure ("Expected YearWithStyles object, found " + x.ToString())
+        | x -> Failure ("Expected YearWithStyles object, found " + x.ToString())
 
 
 type Equipment with
-    static member instance (FromJSON, _:Equipment, _: Equipment ParseResult) = fun (x: JsonValue) ->
-        match x with
+    static member FromJSON (_:Equipment) =
+        function
         | JObject o ->
             monad {
                 let! id = jget o "id"
@@ -363,10 +363,10 @@ type Equipment with
                     Attributes = attributes
                 }
             }
-        | _ -> Failure ("Expected Equipment object, found " + x.ToString())
+        | x -> Failure ("Expected Equipment object, found " + x.ToString())
 
 type Color with
-    static member instance (FromJSON, _: Color, _: Color ParseResult) =
+    static member FromJSON (_: Color) =
         function
         | JObject o ->
             monad {
@@ -386,7 +386,7 @@ type Color with
                     
 
 type Engine with
-    static member instance (FromJSON, _:Engine, _:Engine ParseResult) =
+    static member FromJSON (_:Engine) =
         function
         | JObject o ->
             monad {
@@ -430,7 +430,7 @@ type Engine with
         | x -> Failure ("Expected Engine object, found " + x.ToString())
 
 type Transmission with
-    static member instance (FromJSON, _: Transmission, _: Transmission ParseResult) =
+    static member FromJSON (_: Transmission) =
         function
         | JObject o ->
             monad {
@@ -454,7 +454,7 @@ type Transmission with
         | x -> Failure ("Expected Transmission object, found " + x.ToString())
 
 type GeneralEquipment with
-    static member instance (FromJSON, _:GeneralEquipment, _: GeneralEquipment ParseResult) =
+    static member FromJSON (_:GeneralEquipment) =
         function
         | JObject o as x ->
             monad {
@@ -468,15 +468,15 @@ type GeneralEquipment with
         | x -> Failure ("Expected GeneralEquipment object, found " + x.ToString())
 
 type Equipments with
-    static member instance (FromJSON, _: Equipments, _: Equipments ParseResult) =
+    static member FromJSON (_: Equipments) =
         function
         | JObject o ->
             jget o "equipment" |> map (fun e -> { Equipments.Equipment = e })
         | x -> Failure ("Expected Equipments object, found " + x.ToString())
 
 type VINLookupResponse with
-    static member instance (FromJSON, _: VINLookupResponse, _: VINLookupResponse ParseResult) = fun (x: JsonValue) ->
-        match x with
+    static member FromJSON (_: VINLookupResponse) =
+        function
         | JObject o ->
             monad {
                 let! make = jget o "make"
@@ -506,4 +506,4 @@ type VINLookupResponse with
                     MPG = mpg
                 }
             }
-        | _ -> Failure ("Expected VINLookupResponse object, found " + x.ToString())
+        | x -> Failure ("Expected VINLookupResponse object, found " + x.ToString())

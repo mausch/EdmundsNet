@@ -43,7 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Fleece">
-      <HintPath>G:\prg\Fleece\Fleece\bin\Debug\Fleece.dll</HintPath>
+      <HintPath>..\packages\Fleece.0.1.0\lib\NET40\Fleece.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="FsControl.Core" Condition="$(TargetFrameworkVersion) == 'v3.5'">
       <HintPath>..\lib\FsControl.Core.dll</HintPath>
